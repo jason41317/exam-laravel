@@ -44,16 +44,16 @@ class GoogleController extends Controller
                 
        
             } else {
-                
                 $newUser = User::create([
-                    'name' => $user->name,
+                    'first_name' => $user->user['given_name'],
+                    'last_name' => $user->user['family_name'],
                     'email' => $user->email,
                     'google_id'=> $user->id,
                     'password' => 'dummypass'// you can change auto generate password here and send it via email but you need to add checking that the user need to change the password for security reasons
                 ]);
       
                 $newUser->markEmailAsVerified();
-                $passportToken = $user->createToken('Login Token');
+                $passportToken = $newUser->createToken('Login Token');
                 return response()->json($passportToken);
             }
     
